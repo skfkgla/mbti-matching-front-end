@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import InputBoxComponent from "../Components/InputBoxComponent";
@@ -8,7 +8,7 @@ import { AiOutlineLoading3Quarters } from "react-icons/ai";
 const TotalWrapper = styled.div`
   width: 100%;
   height: 100%;
-  background: white;
+  background: #f4f4f4;
   display: flex;
   vertical-align: center;
   justify-content: center;

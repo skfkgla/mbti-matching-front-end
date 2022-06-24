@@ -37,9 +37,14 @@
   }
 }
 @font-face {
+  font-family: "OKDDUNG";
+  src: url(./Styles/fonts/OKDDUNG.ttf) format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
   font-family: "EarlyFontDiary";
-  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_220508@1.0/EarlyFontDiary.woff2")
-    format("woff2");
-  font-weight: bold;
+  src: url(./Styles/fonts/EarlyFontDiary.ttf) format("truetype");
+  font-weight: normal;
   font-style: normal;
 }

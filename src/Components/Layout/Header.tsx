@@ -9,7 +9,7 @@ const Menu = styled.div`
     top: 0;
     width: 100%;
     height: 80px;
-    background-color: #f4f4f4;
+    background-color: white;
   }
 
   .contents {
@@ -36,28 +36,14 @@ const Menu = styled.div`
     font-size: 13pt;
     font-family: "EarlyFontDiary";
   }
+
   .logo_font {
     display: flex;
-  }
-  .logo_font1 {
     font-size: 25pt;
-    color: red;
+    background: linear-gradient(to right top, #861657, #ffa69e);
+    color: transparent;
+    -webkit-background-clip: text;
     font-family: "OKDDUNG";
-  }
-  .logo_font2 {
-    font-size: 25pt;
-    font-family: "OKDDUNG";
-    color: blue;
-  }
-  .logo_font3 {
-    font-size: 25pt;
-    font-family: "OKDDUNG";
-    color: green;
-  }
-  .logo_font4 {
-    font-size: 25pt;
-    font-family: "OKDDUNG";
-    color: orange;
   }
 `;
 
@@ -67,12 +53,7 @@ const Header = () => {
       <header className="header">
         <div className="contents">
           <a href="/">
-            <div className="logo_font">
-              <div className="logo_font1">M</div>
-              <div className="logo_font2">B</div>
-              <div className="logo_font3">T</div>
-              <div className="logo_font4">I</div>
-            </div>
+            <div className="logo_font">MBTI</div>
           </a>
           <nav className="navigation">
             <ul className="menu">

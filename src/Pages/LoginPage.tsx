@@ -8,7 +8,7 @@ import { AiOutlineLoading3Quarters } from "react-icons/ai";
 const TotalWrapper = styled.div`
   width: 100%;
   height: 100%;
-  background: white;
+  background: #f4f4f4;
   display: flex;
   vertical-align: center;
   justify-content: center;
@@ -25,15 +25,14 @@ const TotalWrapper = styled.div`
     margin-bottom: 10px;
   }
   .box-inner {
-    background-color: #f0f0f0;
+    background-color: #fff480;
     width: 450px;
     height: 500px;
     border-radius: 10px;
     padding: 20px;
-    box-shadow: 2px 2px 2px 2px gray;
   }
 `;
-const RegisterButton = styled.button`
+const LoginButton = styled.button`
   background-color: #354076;
   color: white;
   width: 100%;
@@ -41,17 +40,17 @@ const RegisterButton = styled.button`
   border-radius: 10px;
 `;
 
-const Register = (props: any) => {
+const Login = (props: any) => {
   let navigate = useNavigate();
   const [userId, setUserId] = useState();
   const [password, setPassword] = useState();
   const [loading, setLoading] = useState(false);
 
-  const onClickRegister = () => {
+  const onClickLogin = () => {
     setLoading(true);
     axios
       .post(
-        "http://localhost:8080/user/register",
+        "http://localhost:8080/user/login",
         { userId: userId, password: password },
         { headers: { "Content-Type": "application/json" } }
       )
@@ -85,8 +84,8 @@ const Register = (props: any) => {
   return (
     <TotalWrapper>
       <div className="box-wrapper">
-        <span>회원가입</span>
-        <div>
+        <span>로그인</span>
+        <div className="box-inner">
           <InputBoxComponent
             label="userId"
             inputType="text"
@@ -103,13 +102,13 @@ const Register = (props: any) => {
               setPassword(e.target.value);
             }}
           />
-          <RegisterButton onClick={onClickRegister}>
-            {loading ? <AiOutlineLoading3Quarters /> : "등록"}
-          </RegisterButton>
+          <LoginButton onClick={onClickLogin}>
+            {loading ? <AiOutlineLoading3Quarters /> : "로그인"}
+          </LoginButton>
         </div>
       </div>
     </TotalWrapper>
   );
 };
 
-export default Register;
+export default Login;

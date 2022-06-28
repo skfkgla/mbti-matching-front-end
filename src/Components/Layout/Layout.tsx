@@ -6,7 +6,7 @@ import Header from "./Header";
 const LayoutStyle = styled.div`
   .main {
     min-height: calc(100vh - 180px);
-    background-color: "f4f4f4";
+    background-color: "white";
   }
 `;
 

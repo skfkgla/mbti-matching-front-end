@@ -8,7 +8,7 @@ import { AiOutlineLoading3Quarters } from "react-icons/ai";
 const TotalWrapper = styled.div`
   width: 100%;
   height: 100%;
-  background: #f4f4f4;
+  background: white;
   display: flex;
   vertical-align: center;
   justify-content: center;
@@ -25,11 +25,12 @@ const TotalWrapper = styled.div`
     margin-bottom: 10px;
   }
   .box-inner {
-    background-color: #fff480;
+    background-color: white;
     width: 450px;
     height: 500px;
     border-radius: 10px;
     padding: 20px;
+    box-shadow: 2px 2px 2px 2px gray;
   }
 `;
 const LoginButton = styled.button`

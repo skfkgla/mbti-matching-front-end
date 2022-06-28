@@ -25,12 +25,20 @@ const TotalWrapper = styled.div`
     margin-bottom: 10px;
   }
   .box-inner {
-    background-color: #f0f0f0;
+    background-color: white;
     width: 450px;
     height: 500px;
     border-radius: 10px;
     padding: 20px;
     box-shadow: 2px 2px 2px 2px gray;
+  }
+  .asterisk_input::after {
+    content: " *";
+    color: #e32;
+    position: absolute;
+    margin: 0px 0px 0px -20px;
+    font-size: xx-large;
+    padding: 0 5px 0 0;
   }
 `;
 const RegisterButton = styled.button`
@@ -86,15 +94,18 @@ const Register = (props: any) => {
     <TotalWrapper>
       <div className="box-wrapper">
         <span>회원가입</span>
-        <div>
-          <InputBoxComponent
-            label="userId"
-            inputType="text"
-            name="userId"
-            onChange={(e) => {
-              setUserId(e.target.value);
-            }}
-          />
+        <div className="box-inner">
+          <div>
+            <InputBoxComponent
+              label="ID"
+              inputType="text"
+              name="userId"
+              onChange={(e) => {
+                setUserId(e.target.value);
+              }}
+            />
+          </div>
+
           <InputBoxComponent
             label="password"
             inputType="password"

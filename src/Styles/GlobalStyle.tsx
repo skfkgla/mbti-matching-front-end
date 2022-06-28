@@ -13,7 +13,7 @@ const GlobalStyle = createGlobalStyle`
         box-sizing: border-box;
     }
     html{
-        font-size:10px; // rem사이즈 지정
+        font-size:8px; // rem사이즈 지정
         height: 100%;
         background: white;
     }

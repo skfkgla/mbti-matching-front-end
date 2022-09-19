@@ -1,9 +1,8 @@
 import React from "react";
-import logo from "./logo.svg";
 import "./App.css";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
-import Register from "./Pages/registerPage";
+import Register from "./Pages/RegisterPage";
 import Login from "./Pages/LoginPage";
 
 function App() {

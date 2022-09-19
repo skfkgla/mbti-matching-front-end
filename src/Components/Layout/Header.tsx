@@ -1,5 +1,4 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
 const Menu = styled.div`
@@ -34,7 +33,7 @@ const Menu = styled.div`
   }
   .menu {
     font-size: 13pt;
-    font-family: "EarlyFontDiary";
+    font-family: "NanumSquareRoundR";
   }
 
   .logo_font {
@@ -57,8 +56,12 @@ const Header = () => {
           </a>
           <nav className="navigation">
             <ul className="menu">
-              <li>로그인</li>
-              <li>회원가입</li>
+              <li>
+                <a href="/user/login">로그인</a>
+              </li>
+              <li>
+                <a href="/user/register">회원가입</a>
+              </li>
             </ul>
           </nav>
         </div>

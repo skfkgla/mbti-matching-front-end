@@ -17,6 +17,12 @@ const TotalWrapper = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
+    font-family: "NanumSquareRoundEB";
+  }
+  .box-title {
+    align-items: center;
+    font-family: "NanumSquareRoundEB";
+    font-size: large;
   }
   .box-wrapper span {
     color: black;
@@ -85,7 +91,9 @@ const Login = (props: any) => {
   return (
     <TotalWrapper>
       <div className="box-wrapper">
-        <span>로그인</span>
+        <div className="box-title">
+          <span>로그인</span>
+        </div>
         <div className="box-inner">
           <InputBoxComponent
             label="userId"

@@ -1,13 +1,14 @@
 import React from "react";
 import styled from "styled-components";
 import { FormControl } from "react-bootstrap";
-interface InputBoxProps {
+
+interface SelectBoxProps {
   label: string;
   inputType: string;
   name?: any;
   onChange?: (e: any) => any;
 }
-const InputBox = styled.div`
+const SelectBox = styled.div`
   position: relative;
   input {
     width: 100%;
@@ -40,22 +41,19 @@ const InputBox = styled.div`
     -webkit-box-shadow: 0 0 0 30px white inset;
   }
 `;
-
 //쓸땐 form 태그 안에 넣자
-const InputBoxComponent = ({
+const SelectBoxComponent = ({
   label,
   inputType,
   name,
   onChange,
-}: InputBoxProps) => {
+}: SelectBoxProps) => {
   return (
-    <InputBox>
+    <SelectBox>
       <form>
         <FormControl type={inputType} name={name} onChange={onChange} />
         <label>{label}</label>
       </form>
-    </InputBox>
+    </SelectBox>
   );
 };
-
-export default InputBoxComponent;

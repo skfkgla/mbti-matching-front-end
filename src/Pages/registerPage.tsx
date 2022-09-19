@@ -53,14 +53,46 @@ const Register = (props: any) => {
   let navigate = useNavigate();
   const [userId, setUserId] = useState();
   const [password, setPassword] = useState();
+  const [gender, setGender] = useState();
+  const [mbti, setMbti] = useState();
+  //const [birth, setBirth] = useState();
+  const [nickname, setNickName] = useState();
   const [loading, setLoading] = useState(false);
+
+  const MbtiList = [
+    "INTJ",
+    "INTP",
+    "ENTJ",
+    "ENTP",
+    //외교형
+    "INFJ",
+    "INFP",
+    "ENFJ",
+    "ENFP",
+    //관리자형
+    "ISTJ",
+    "ISFJ",
+    "ESTJ",
+    "ESFJ",
+    //탐험가형
+    "ISTP",
+    "ISFP",
+    "ESTP",
+    "ESFP",
+  ];
 
   const onClickRegister = () => {
     setLoading(true);
     axios
       .post(
         "http://localhost:8080/user/register",
-        { userId: userId, password: password },
+        {
+          userId: userId,
+          password: password,
+          gender: gender,
+          mbti: mbti,
+          nickname: nickname,
+        }, //나중에 Date 어떤식으로 요청할지 고민해서 birth추가하기
         { headers: { "Content-Type": "application/json" } }
       )
       .then((response: any) => {
@@ -97,7 +129,7 @@ const Register = (props: any) => {
         <div className="box-inner">
           <div>
             <InputBoxComponent
-              label="ID"
+              label="아이디"
               inputType="text"
               name="userId"
               onChange={(e) => {
@@ -105,6 +137,16 @@ const Register = (props: any) => {
               }}
             />
           </div>
+          <form>
+            <InputBoxComponent
+              label="gender"
+              inputType="select"
+              name="gender"
+              onChange={(e) => {
+                setGender(e.target.value);
+              }}
+            />
+          </form>
 
           <InputBoxComponent
             label="password"

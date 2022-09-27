@@ -1,85 +1,84 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import InputBoxComponent from "../Components/InputBoxComponent";
-import styled from "styled-components";
-import { AiOutlineLoading3Quarters } from "react-icons/ai";
+import Button from "@mui/material/Button";
+import CssBaseline from "@mui/material/CssBaseline";
+import TextField from "@mui/material/TextField";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import Checkbox from "@mui/material/Checkbox";
+import Link from "@mui/material/Link";
+import Grid from "@mui/material/Grid";
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
+import Container from "@mui/material/Container";
+import IconButton from "@mui/material/IconButton";
+import Input from "@mui/material/Input";
+import FilledInput from "@mui/material/FilledInput";
+import OutlinedInput from "@mui/material/OutlinedInput";
+import InputLabel from "@mui/material/InputLabel";
+import InputAdornment from "@mui/material/InputAdornment";
+import FormHelperText from "@mui/material/FormHelperText";
+import FormControl from "@mui/material/FormControl";
+import Visibility from "@mui/icons-material/Visibility";
+import VisibilityOff from "@mui/icons-material/VisibilityOff";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
 
-const TotalWrapper = styled.div`
-  width: 100%;
-  height: 100%;
-  background: white;
-  display: flex;
-  vertical-align: center;
-  justify-content: center;
-  align-items: center;
-  .box-wrapper {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    font-family: "NanumSquareRoundEB";
-  }
-  .box-title {
-    align-items: center;
-    font-family: "NanumSquareRoundEB";
-    font-size: large;
-  }
-  .box-wrapper span {
-    color: black;
-    font-weight: 700;
-    font-size: 2rem;
-    margin-bottom: 10px;
-  }
-  .box-inner {
-    background-color: white;
-    width: 450px;
-    height: 500px;
-    border-radius: 10px;
-    padding: 20px;
-    box-shadow: 2px 2px 2px 2px gray;
-  }
-`;
-const LoginButton = styled.button`
-  background-color: #354076;
-  color: white;
-  width: 100%;
-  height: 30px;
-  border-radius: 10px;
-`;
+const theme = createTheme({});
+
+interface State {
+  email: string;
+  password: string;
+  loading: boolean;
+  showPassword: boolean;
+}
 
 const Login = (props: any) => {
-  let navigate = useNavigate();
-  const [userId, setUserId] = useState();
-  const [password, setPassword] = useState();
-  const [loading, setLoading] = useState(false);
+  const [values, setValues] = useState({
+    email: "",
+    password: "",
+    loading: false,
+    showPassword: false,
+  });
 
   const onClickLogin = () => {
-    setLoading(true);
+    setValues({ ...values, loading: true });
     axios
       .post(
-        "http://localhost:8080/user/login",
-        { userId: userId, password: password },
+        "https://localhost:8080/user/login",
+        { email: values.email, password: values.password },
         { headers: { "Content-Type": "application/json" } }
       )
       .then((response: any) => {
-        setLoading(false);
-        navigate("/", { replace: true });
+        setValues({ ...values, loading: false });
+        const accessToken = response.data.list.accessToken;
+        const refreshToken = response.data.list.refreshToken;
+        const userInfo = {
+          accessToken: accessToken,
+          refreshToken: refreshToken,
+        };
+        window.sessionStorage.setItem("userInfo", JSON.stringify(userInfo));
+        props.history.push("/");
       })
-
       .catch((error) => {
         if (error.response) {
-          setLoading(false);
-          // 요청을 했지만 응답코드가 200대를 벗어남
+          setValues({ ...values, loading: false });
+          // 요청이 이루어졌으며 서버가 2xx의 범위를 벗어나는 상태 코드로 응답했습니다.
           console.log(error.response.data);
           console.log(error.response.status);
           console.log(error.response.headers);
           if (error.response.status === 400) {
-            alert("정보를 입력해주세요");
+            alert("아이디 비밀번호를 입력해주세요");
           }
-          if (error.response.status === 403) {
-            alert("잘못된 요청");
+          if (error.response.status === 404) {
+            alert("해당 계정이 없음");
+          }
+          if (error.response.status === 401) {
+            alert("승인나지 않은 계정입니다.");
           }
         } else if (error.request) {
+          // 요청이 이루어 졌으나 응답을 받지 못했습니다.
+          // `error.request`는 브라우저의 XMLHttpRequest 인스턴스 또는
+          // Node.js의 http.ClientRequest 인스턴스입니다.
           console.log(error.request);
           alert("요청이 이루어졌으나 응답을 받지 못했습니다");
         } else {
@@ -88,35 +87,126 @@ const Login = (props: any) => {
         }
       });
   };
+  const handleChange =
+    (prop: keyof State) => (event: React.ChangeEvent<HTMLInputElement>) => {
+      setValues({ ...values, [prop]: event.target.value });
+    };
+
+  const handleClickShowPassword = () => {
+    setValues({
+      ...values,
+      showPassword: !values.showPassword,
+    });
+  };
+  const handleMouseDownPassword = (
+    event: React.MouseEvent<HTMLButtonElement>
+  ) => {
+    event.preventDefault();
+  };
   return (
-    <TotalWrapper>
-      <div className="box-wrapper">
-        <div className="box-title">
-          <span>로그인</span>
-        </div>
-        <div className="box-inner">
-          <InputBoxComponent
-            label="userId"
-            inputType="text"
-            name="userId"
-            onChange={(e) => {
-              setUserId(e.target.value);
-            }}
-          />
-          <InputBoxComponent
-            label="password"
-            inputType="password"
-            name="password"
-            onChange={(e) => {
-              setPassword(e.target.value);
-            }}
-          />
-          <LoginButton onClick={onClickLogin}>
-            {loading ? <AiOutlineLoading3Quarters /> : "로그인"}
-          </LoginButton>
-        </div>
-      </div>
-    </TotalWrapper>
+    <ThemeProvider theme={theme}>
+      <Container component="main" maxWidth="xs">
+        <CssBaseline />
+        <Box
+          sx={{
+            marginTop: 8,
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+          }}
+        >
+          <Box sx={{ fontFamily: "NanumSquareRoundR", fontSize: 25 }}>
+            로그인
+          </Box>
+          <Box component="form" sx={{ mt: 1 }}>
+            <FormControl
+              sx={{ mt: 1 }}
+              variant="outlined"
+              fullWidth
+              required
+              color="success"
+            >
+              <InputLabel
+                sx={{ fontSize: 13 }}
+                htmlFor="outlined-adornment-email"
+              >
+                Email
+              </InputLabel>
+              <OutlinedInput
+                id="outlined-adornment-email"
+                type="text"
+                sx={{ fontSize: 14 }}
+                value={values.email}
+                onChange={handleChange("email")}
+                label="email"
+              />
+            </FormControl>
+            <FormControl
+              sx={{ mt: 2 }}
+              variant="outlined"
+              fullWidth
+              required
+              color="success"
+            >
+              <InputLabel
+                htmlFor="outlined-adornment-password"
+                sx={{ fontSize: 13 }}
+              >
+                Password
+              </InputLabel>
+              <OutlinedInput
+                id="outlined-adornment-password"
+                type={values.showPassword ? "text" : "password"}
+                sx={{ fontSize: 14 }}
+                value={values.password}
+                onChange={handleChange("password")}
+                endAdornment={
+                  <InputAdornment position="end">
+                    <IconButton
+                      aria-label="toggle password visibility"
+                      onClick={handleClickShowPassword}
+                      onMouseDown={handleMouseDownPassword}
+                      edge="end"
+                      sx={{ m: 0.1 }}
+                    >
+                      {values.showPassword ? (
+                        <VisibilityOff style={{ fontSize: "3rem" }} />
+                      ) : (
+                        <Visibility style={{ fontSize: "3rem" }} />
+                      )}
+                    </IconButton>
+                  </InputAdornment>
+                }
+                label="비밀번호"
+              />
+            </FormControl>
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              color="success"
+              style={{ fontSize: "2rem" }}
+              sx={{ mt: 3, mb: 2 }}
+              onClick={onClickLogin}
+            >
+              로그인
+            </Button>
+            <Grid container>
+              <Grid item xs>
+                <Link href="#" variant="body2">
+                  아이디 찾기
+                </Link>
+              </Grid>
+              <Grid item>
+                <Link href="#" variant="body2">
+                  {"회원가입"}
+                </Link>
+              </Grid>
+            </Grid>
+          </Box>
+        </Box>
+      </Container>
+    </ThemeProvider>
   );
 };
 

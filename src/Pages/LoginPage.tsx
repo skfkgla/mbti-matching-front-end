@@ -3,21 +3,14 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
-import TextField from "@mui/material/TextField";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
 import Link from "@mui/material/Link";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import IconButton from "@mui/material/IconButton";
-import Input from "@mui/material/Input";
-import FilledInput from "@mui/material/FilledInput";
 import OutlinedInput from "@mui/material/OutlinedInput";
 import InputLabel from "@mui/material/InputLabel";
 import InputAdornment from "@mui/material/InputAdornment";
-import FormHelperText from "@mui/material/FormHelperText";
 import FormControl from "@mui/material/FormControl";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
@@ -25,43 +18,37 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 
 const theme = createTheme({});
 
-interface State {
-  email: string;
-  password: string;
-  loading: boolean;
-  showPassword: boolean;
-}
-
 const Login = (props: any) => {
-  const [values, setValues] = useState({
-    email: "",
-    password: "",
-    loading: false,
-    showPassword: false,
-  });
+  const navigate = useNavigate();
+  const [userId, setUserId] = useState("");
+  const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   const onClickLogin = () => {
-    setValues({ ...values, loading: true });
+    setLoading(true);
     axios
       .post(
-        "https://localhost:8080/user/login",
-        { email: values.email, password: values.password },
+        "http://localhost:8080/user/login",
+        { userId: userId, password: password },
         { headers: { "Content-Type": "application/json" } }
       )
       .then((response: any) => {
-        setValues({ ...values, loading: false });
+        setLoading(false);
         const accessToken = response.data.list.accessToken;
         const refreshToken = response.data.list.refreshToken;
         const userInfo = {
           accessToken: accessToken,
           refreshToken: refreshToken,
         };
+        console.log(userInfo);
         window.sessionStorage.setItem("userInfo", JSON.stringify(userInfo));
-        props.history.push("/");
+        navigate("/");
+        console.log(userId + " " + password);
       })
       .catch((error) => {
         if (error.response) {
-          setValues({ ...values, loading: false });
+          setLoading(false);
           // 요청이 이루어졌으며 서버가 2xx의 범위를 벗어나는 상태 코드로 응답했습니다.
           console.log(error.response.data);
           console.log(error.response.status);
@@ -86,17 +73,6 @@ const Login = (props: any) => {
           console.log("Error", error.message);
         }
       });
-  };
-  const handleChange =
-    (prop: keyof State) => (event: React.ChangeEvent<HTMLInputElement>) => {
-      setValues({ ...values, [prop]: event.target.value });
-    };
-
-  const handleClickShowPassword = () => {
-    setValues({
-      ...values,
-      showPassword: !values.showPassword,
-    });
   };
   const handleMouseDownPassword = (
     event: React.MouseEvent<HTMLButtonElement>
@@ -128,16 +104,16 @@ const Login = (props: any) => {
             >
               <InputLabel
                 sx={{ fontSize: 13 }}
-                htmlFor="outlined-adornment-email"
+                htmlFor="outlined-adornment-userId"
               >
                 Email
               </InputLabel>
               <OutlinedInput
-                id="outlined-adornment-email"
+                id="outlined-adornment-userId"
                 type="text"
                 sx={{ fontSize: 14 }}
-                value={values.email}
-                onChange={handleChange("email")}
+                value={userId}
+                onChange={(e) => setUserId(e.target.value)}
                 label="email"
               />
             </FormControl>
@@ -156,20 +132,20 @@ const Login = (props: any) => {
               </InputLabel>
               <OutlinedInput
                 id="outlined-adornment-password"
-                type={values.showPassword ? "text" : "password"}
+                type={showPassword ? "text" : "password"}
                 sx={{ fontSize: 14 }}
-                value={values.password}
-                onChange={handleChange("password")}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
                 endAdornment={
                   <InputAdornment position="end">
                     <IconButton
                       aria-label="toggle password visibility"
-                      onClick={handleClickShowPassword}
+                      onClick={handleMouseDownPassword}
                       onMouseDown={handleMouseDownPassword}
                       edge="end"
                       sx={{ m: 0.1 }}
                     >
-                      {values.showPassword ? (
+                      {showPassword ? (
                         <VisibilityOff style={{ fontSize: "3rem" }} />
                       ) : (
                         <Visibility style={{ fontSize: "3rem" }} />
@@ -181,7 +157,6 @@ const Login = (props: any) => {
               />
             </FormControl>
             <Button
-              type="submit"
               fullWidth
               variant="contained"
               color="success"

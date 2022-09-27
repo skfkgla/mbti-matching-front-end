@@ -4,6 +4,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Register from "./Pages/RegisterPage";
 import Login from "./Pages/LoginPage";
+import Home from "./Pages/HomePage";
 import { createTheme, ThemeProvider } from "@mui/material";
 
 const theme = createTheme({
@@ -17,6 +18,7 @@ function App() {
     <ThemeProvider theme={theme}>
       <BrowserRouter>
         <Routes>
+          <Route path="/" element={<Home />} />
           <Route path="/user/register" element={<Register />} />
           <Route path="/user/login" element={<Login />} />
         </Routes>

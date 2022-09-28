@@ -43,7 +43,7 @@ const Login = (props: any) => {
         };
         console.log(userInfo);
         window.sessionStorage.setItem("userInfo", JSON.stringify(userInfo));
-        navigate("/");
+        navigate("/", { replace: true });
         console.log(userId + " " + password);
       })
       .catch((error) => {
@@ -73,6 +73,9 @@ const Login = (props: any) => {
           console.log("Error", error.message);
         }
       });
+  };
+  const handleClickShowPassword = () => {
+    setShowPassword(!showPassword);
   };
   const handleMouseDownPassword = (
     event: React.MouseEvent<HTMLButtonElement>
@@ -106,7 +109,7 @@ const Login = (props: any) => {
                 sx={{ fontSize: 13 }}
                 htmlFor="outlined-adornment-userId"
               >
-                Email
+                아이디
               </InputLabel>
               <OutlinedInput
                 id="outlined-adornment-userId"
@@ -114,7 +117,7 @@ const Login = (props: any) => {
                 sx={{ fontSize: 14 }}
                 value={userId}
                 onChange={(e) => setUserId(e.target.value)}
-                label="email"
+                label="아이디"
               />
             </FormControl>
             <FormControl
@@ -128,7 +131,7 @@ const Login = (props: any) => {
                 htmlFor="outlined-adornment-password"
                 sx={{ fontSize: 13 }}
               >
-                Password
+                비밀번호
               </InputLabel>
               <OutlinedInput
                 id="outlined-adornment-password"
@@ -140,7 +143,7 @@ const Login = (props: any) => {
                   <InputAdornment position="end">
                     <IconButton
                       aria-label="toggle password visibility"
-                      onClick={handleMouseDownPassword}
+                      onClick={handleClickShowPassword}
                       onMouseDown={handleMouseDownPassword}
                       edge="end"
                       sx={{ m: 0.1 }}
@@ -163,6 +166,7 @@ const Login = (props: any) => {
               style={{ fontSize: "2rem" }}
               sx={{ mt: 3, mb: 2 }}
               onClick={onClickLogin}
+              type="submit"
             >
               로그인
             </Button>

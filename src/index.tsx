@@ -6,6 +6,7 @@ import reportWebVitals from "./reportWebVitals";
 import "bootstrap/dist/css/bootstrap.css";
 import GlobalStyle from "./Styles/GlobalStyle";
 import Layout from "./Components/Layout/Layout";
+import CssBaseline from "@mui/material/CssBaseline";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
@@ -13,9 +14,11 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <GlobalStyle />
-    <Layout>
-      <App />
-    </Layout>
+    <CssBaseline>
+      <Layout>
+        <App />
+      </Layout>
+    </CssBaseline>
   </React.StrictMode>
 );
 

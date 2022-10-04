@@ -1,6 +1,7 @@
 import React, { useState, useCallback } from "react";
 import { useNavigate, useRoutes } from "react-router-dom";
 import axios from "axios";
+import styled from "styled-components";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import Link from "@mui/material/Link";
@@ -60,6 +61,22 @@ const Register = (props: any) => {
     "ESTP",
     "ESFP",
   ];
+  const onClickCheckId = () => {
+    axios
+      .get("http://localhost:8080/user/check/" + userId)
+      .then((response: any) => {
+        // 성공 핸들링
+        alert("사용할 수 있는 아이디입니다.");
+        console.log(response.data);
+      })
+      .catch((error) => {
+        // 에러 핸들링
+        alert("중복된 아이디입니다.");
+      })
+      .then(() => {
+        //항상 실행되는 영역
+      });
+  };
   const onClickRegister = () => {
     setLoading(true);
     axios
@@ -205,6 +222,7 @@ const Register = (props: any) => {
                       color="success"
                       sx={{ mt: 1, fontSize: 14, flexDirection: "row-reverse" }}
                       fullWidth
+                      onClick={onClickCheckId}
                     >
                       중복확인
                     </Button>

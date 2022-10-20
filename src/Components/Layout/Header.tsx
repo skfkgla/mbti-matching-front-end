@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 
 const Menu = styled.div`
@@ -46,7 +46,21 @@ const Menu = styled.div`
   }
 `;
 
-const Header = () => {
+const Header = (props: any) => {
+  const [login, setLogin] = useState("");
+  const [loginLink, setLoginLink] = useState("");
+
+  useEffect(() => {
+    const sessionObj = window.sessionStorage.getItem("userInfo");
+    let userInfo = sessionObj ? JSON.parse(sessionObj) : null;
+    if (userInfo.accessToken === null) {
+      setLogin("로그아웃");
+      setLoginLink("/user/logout");
+    } else {
+      setLogin("로그인");
+      setLoginLink("/user/login");
+    }
+  }, []);
   return (
     <Menu>
       <header className="header">
@@ -57,7 +71,7 @@ const Header = () => {
           <nav className="navigation">
             <ul className="menu">
               <li>
-                <a href="/user/login">로그인</a>
+                <a href={loginLink}>{login}</a>
               </li>
               <li>
                 <a href="/user/register">회원가입</a>

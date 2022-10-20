@@ -20,7 +20,7 @@ const theme = createTheme({});
 
 const Login = (props: any) => {
   const navigate = useNavigate();
-  const [userId, setUserId] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
@@ -29,8 +29,8 @@ const Login = (props: any) => {
     setLoading(true);
     axios
       .post(
-        "http://localhost:8080/user/login",
-        { userId: userId, password: password },
+        "http://localhost:8080/login",
+        { email: email, password: password },
         { headers: { "Content-Type": "application/json" } }
       )
       .then((response: any) => {
@@ -43,8 +43,8 @@ const Login = (props: any) => {
         };
         console.log(userInfo);
         window.sessionStorage.setItem("userInfo", JSON.stringify(userInfo));
-        navigate("/", { replace: true });
-        console.log(userId + " " + password);
+        console.log(email + " " + password);
+        navigate("/");
       })
       .catch((error) => {
         if (error.response) {
@@ -82,6 +82,12 @@ const Login = (props: any) => {
   ) => {
     event.preventDefault();
   };
+  const onKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      onClickLogin();
+    }
+  };
+
   return (
     <ThemeProvider theme={theme}>
       <Container component="main" maxWidth="xs">
@@ -107,17 +113,18 @@ const Login = (props: any) => {
             >
               <InputLabel
                 sx={{ fontSize: 13 }}
-                htmlFor="outlined-adornment-userId"
+                htmlFor="outlined-adornment-email"
               >
                 아이디
               </InputLabel>
               <OutlinedInput
-                id="outlined-adornment-userId"
+                id="outlined-adornment-email"
                 type="text"
                 sx={{ fontSize: 14 }}
-                value={userId}
-                onChange={(e) => setUserId(e.target.value)}
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
                 label="아이디"
+                onKeyDown={onKeyDown}
               />
             </FormControl>
             <FormControl
@@ -139,6 +146,7 @@ const Login = (props: any) => {
                 sx={{ fontSize: 14 }}
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
+                onKeyDown={onKeyDown}
                 endAdornment={
                   <InputAdornment position="end">
                     <IconButton
@@ -166,7 +174,7 @@ const Login = (props: any) => {
               style={{ fontSize: "2rem" }}
               sx={{ mt: 3, mb: 2 }}
               onClick={onClickLogin}
-              type="submit"
+              type="button"
             >
               로그인
             </Button>

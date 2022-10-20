@@ -38,25 +38,25 @@
 }
 @font-face {
   font-family: "OKDDUNG";
-  src: url(./Styles/fonts/OKDDUNG.ttf) format("truetype");
+  src: url(./styles/fonts/OKDDUNG.ttf) format("truetype");
   font-weight: normal;
   font-style: normal;
 }
 @font-face {
   font-family: "EarlyFontDiary";
-  src: url(./Styles/fonts/EarlyFontDiary.ttf) format("truetype");
+  src: url(./styles/fonts/EarlyFontDiary.ttf) format("truetype");
   font-weight: normal;
   font-style: normal;
 }
 @font-face {
   font-family: "NanumSquareRoundEB";
-  src: url(./Styles/fonts/NanumSquareRoundEB.ttf) format("truetype");
+  src: url(./styles/fonts/NanumSquareRoundEB.ttf) format("truetype");
   font-weight: normal;
   font-style: normal;
 }
 @font-face {
   font-family: "NanumSquareRoundR";
-  src: url(./Styles/fonts/NanumSquareRoundR.ttf) format("truetype");
+  src: url(./styles/fonts/NanumSquareRoundR.ttf) format("truetype");
   font-weight: normal;
   font-style: normal;
 }

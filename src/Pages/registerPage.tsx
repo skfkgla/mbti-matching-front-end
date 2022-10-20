@@ -16,13 +16,15 @@ import FormControl from "@mui/material/FormControl";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import Stack from "@mui/material/Stack";
+import Select, { SelectChangeEvent } from "@mui/material/Select";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { Menu, MenuItem } from "@mui/material";
 //비밀번호 확인부터 하면 될 듯
 const theme = createTheme({});
 
 const Register = (props: any) => {
   const navigate = useNavigate();
-  const [userId, setUserId] = useState("");
+  const [email, setemail] = useState("");
   const [password, setPassword] = useState<String>("");
   const [confirmPassword, setConfirmPassword] = useState<String>("");
   const [gender, setGender] = useState("");
@@ -35,12 +37,12 @@ const Register = (props: any) => {
   const [passwordMessage, setPasswordMessage] = useState<string>("");
   const [confirmPasswordMessage, setConfirmPasswordMessage] =
     useState<string>("");
-  const [userIdMessage, setUserIdMessage] = useState<string>("");
+  const [emailMessage, setemailMessage] = useState<string>("");
   //유효성 검사
   const [isPassword, setIsPassword] = useState<boolean>(false);
   const [isConfirmPassword, setIsConfirmPassword] = useState<boolean>(false);
-  const [isUserId, setIsUserId] = useState<boolean>(false);
-  const MbtiList = [
+  const [isemail, setIsemail] = useState<boolean>(false);
+  const mbtis = [
     "INTJ",
     "INTP",
     "ENTJ",
@@ -61,9 +63,23 @@ const Register = (props: any) => {
     "ESTP",
     "ESFP",
   ];
+  const mbtiList = mbtis.map(function (mbti) {
+    return (
+      <MenuItem value={mbti} sx={{ fontSize: 14 }}>
+        {mbti}
+      </MenuItem>
+    );
+  });
+  const checkPasswordStyle = {
+    color: isPassword ? "green" : "red",
+  };
+  const checkConfirmPasswordStyle = {
+    color: isConfirmPassword ? "green" : "red",
+  };
+
   const onClickCheckId = () => {
     axios
-      .get("http://localhost:8080/user/check/" + userId)
+      .get("http://localhost:8080/check/" + email)
       .then((response: any) => {
         // 성공 핸들링
         alert("사용할 수 있는 아이디입니다.");
@@ -71,7 +87,11 @@ const Register = (props: any) => {
       })
       .catch((error) => {
         // 에러 핸들링
-        alert("중복된 아이디입니다.");
+        if (email.length == 0) {
+          alert("아이디를 입력해주세요");
+        } else {
+          alert("중복된 아이디입니다.");
+        }
       })
       .then(() => {
         //항상 실행되는 영역
@@ -81,9 +101,9 @@ const Register = (props: any) => {
     setLoading(true);
     axios
       .post(
-        "http://localhost:8080/user/register",
+        "http://localhost:8080/register",
         {
-          userId: userId,
+          email: email,
           password: password,
           gender: gender,
           mbti: mbti,
@@ -95,7 +115,7 @@ const Register = (props: any) => {
 
       .then((response: any) => {
         setLoading(false);
-        navigate("/", { replace: true });
+        navigate("/user/login", { replace: true });
       })
 
       .catch((error) => {
@@ -141,16 +161,16 @@ const Register = (props: any) => {
     },
     []
   );
-  const onChangeUserId = useCallback(
+  const onChangeemail = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
-      const userIdRegex = /^[a-z]+[a-z0-9]{5,19}$/g;
-      const userIdCurrent = e.target.value;
-      setUserId(userIdCurrent);
-      if (!userIdRegex.test(userIdCurrent)) {
-        setUserIdMessage("영문자를 사용해주세요.");
+      const emailRegex = /^[a-z]+[a-z0-9]{5,19}$/g;
+      const emailCurrent = e.target.value;
+      setemail(emailCurrent);
+      if (!emailRegex.test(emailCurrent)) {
+        setemailMessage("영문자를 사용해주세요.");
         setIsPassword(false);
       } else {
-        setUserIdMessage("");
+        setemailMessage("");
         setIsPassword(true);
       }
     },
@@ -162,7 +182,7 @@ const Register = (props: any) => {
       setConfirmPassword(ConfirmPasswordCurrent);
 
       if (password === ConfirmPasswordCurrent) {
-        setConfirmPasswordMessage("비밀번호가 같습니다");
+        setConfirmPasswordMessage("알맞은 비밀번호입니다");
         setIsConfirmPassword(true);
       } else {
         setConfirmPasswordMessage("비밀번호가 다릅니다");
@@ -175,10 +195,17 @@ const Register = (props: any) => {
   const handleClickShowPassword = () => {
     setShowPassword(!showPassword);
   };
-  const handleMouseDownPassword = (
-    event: React.MouseEvent<HTMLButtonElement>
-  ) => {
-    event.preventDefault();
+  const handleMouseDownPassword = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+  };
+  const handleChangeMbti = (e: SelectChangeEvent) => {
+    setMbti(e.target.value as string);
+  };
+  const handleChangeGender = (e: SelectChangeEvent) => {
+    setGender(e.target.value as string);
+  };
+  const handleChangeNickname = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setNickName(e.target.value as string);
   };
   return (
     <ThemeProvider theme={theme}>
@@ -201,17 +228,17 @@ const Register = (props: any) => {
                 <Grid container spacing={1}>
                   <InputLabel
                     sx={{ fontSize: 13 }}
-                    htmlFor="outlined-adornment-userId"
+                    htmlFor="outlined-adornment-email"
                   >
                     아이디
                   </InputLabel>
                   <Grid item xs={9}>
                     <OutlinedInput
-                      id="outlined-adornment-userId"
+                      id="outlined-adornment-email"
                       type="text"
                       sx={{ fontSize: 14 }}
-                      value={userId}
-                      onChange={(e) => setUserId(e.target.value)}
+                      value={email}
+                      onChange={(e) => setemail(e.target.value)}
                       label="아이디"
                       fullWidth
                     />
@@ -268,11 +295,18 @@ const Register = (props: any) => {
                 }
                 label="비밀번호"
               />
-              {password.length > 0 && (
-                <span className={`message ${isPassword ? "success" : "error"}`}>
-                  {passwordMessage}
-                </span>
-              )}
+              <Box
+                color={checkPasswordStyle}
+                sx={{ height: 0.1, fontWeight: 1000 }}
+              >
+                {password.length > 0 && (
+                  <span
+                    className={`message ${isPassword ? "success" : "error"}`}
+                  >
+                    {passwordMessage}
+                  </span>
+                )}
+              </Box>
             </FormControl>
             <FormControl
               sx={{ mt: 2 }}
@@ -295,16 +329,89 @@ const Register = (props: any) => {
                 onChange={onChangeConfirmPassword}
                 label="비밀번호확인"
               />
-              {confirmPassword.length > 0 && (
-                <span
-                  className={`message ${
-                    isConfirmPassword ? "success" : "error"
-                  }`}
-                >
-                  {confirmPasswordMessage}
-                </span>
-              )}
+              <Box
+                color={checkConfirmPasswordStyle}
+                sx={{ height: 0.1, fontWeight: 1000 }}
+              >
+                {confirmPassword.length > 0 && (
+                  <span
+                    className={`message ${
+                      isConfirmPassword ? "success" : "error"
+                    }`}
+                  >
+                    {confirmPasswordMessage}
+                  </span>
+                )}
+              </Box>
             </FormControl>
+            <FormControl
+              sx={{ mt: 2 }}
+              variant="outlined"
+              fullWidth
+              required
+              color="success"
+            >
+              <InputLabel htmlFor="nickname" sx={{ fontSize: 13 }}>
+                닉네임
+              </InputLabel>
+              <OutlinedInput
+                id="nickname"
+                type="text"
+                sx={{ fontSize: 14 }}
+                value={nickname}
+                onChange={handleChangeNickname}
+                label="닉네임"
+              />
+            </FormControl>
+            <FormControl
+              sx={{ mt: 2 }}
+              variant="outlined"
+              fullWidth
+              required
+              color="success"
+            >
+              <InputLabel id="MBTI" sx={{ fontSize: 13 }}>
+                MBTI
+              </InputLabel>
+              <Select
+                labelId="MBTI"
+                id="MBTI"
+                value={mbti}
+                label="MBTI"
+                onChange={handleChangeMbti}
+                fullWidth
+                sx={{ fontSize: 14 }}
+              >
+                {mbtiList}
+              </Select>
+            </FormControl>
+            <FormControl
+              sx={{ mt: 2 }}
+              variant="outlined"
+              fullWidth
+              required
+              color="success"
+            >
+              <InputLabel id="gender" sx={{ fontSize: 13 }}>
+                성별
+              </InputLabel>
+              <Select
+                labelId="gender"
+                value={gender}
+                label="gender"
+                onChange={handleChangeGender}
+                fullWidth
+                sx={{ fontSize: 14 }}
+              >
+                <MenuItem value={"male"} sx={{ fontSize: 14 }}>
+                  남성
+                </MenuItem>
+                <MenuItem value={"female"} sx={{ fontSize: 14 }}>
+                  여성
+                </MenuItem>
+              </Select>
+            </FormControl>
+
             <Button
               fullWidth
               variant="contained"

@@ -5,10 +5,12 @@ import axios from "axios";
 import InputBoxComponent from "../components/InputBoxComponent";
 import styled from "styled-components";
 
-const Home = (props: any) => {
+const UserHome = (props: any) => {
   let navigate = useNavigate();
   const [loading, setLoading] = useState(false);
-  return <Box sx={{ fontFamily: "NanumSquareRoundR", fontSize: 25 }}>HOME</Box>;
+  return (
+    <Box sx={{ fontFamily: "NanumSquareRoundR", fontSize: 25 }}>USER HOME</Box>
+  );
 };
 
-export default Home;
+export default UserHome;

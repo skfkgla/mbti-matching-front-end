@@ -2,9 +2,11 @@ import React from "react";
 import "./App.css";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
-import Register from "./Pages/RegisterPage";
-import Login from "./Pages/LoginPage";
-import Home from "./Pages/HomePage";
+import Register from "./pages/RegisterPage";
+import Login from "./pages/LoginPage";
+import Home from "./pages/HomePage";
+import Chat from "./pages/ChatPage";
+import Test from "./pages/ChatTestPage";
 import { createTheme, ThemeProvider } from "@mui/material";
 
 const theme = createTheme({
@@ -21,6 +23,8 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/user/register" element={<Register />} />
           <Route path="/user/login" element={<Login />} />
+          <Route path="/user/chat" element={<Chat />} />
+          <Route path="/chat" element={<Test />} />
         </Routes>
       </BrowserRouter>
     </ThemeProvider>

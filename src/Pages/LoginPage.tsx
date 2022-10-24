@@ -43,8 +43,7 @@ const Login = (props: any) => {
         };
         console.log(userInfo);
         window.sessionStorage.setItem("userInfo", JSON.stringify(userInfo));
-        console.log(email + " " + password);
-        navigate("/");
+        window.location.replace("/");
       })
       .catch((error) => {
         if (error.response) {

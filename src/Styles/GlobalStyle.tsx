@@ -3,6 +3,7 @@ import reset from "styled-reset";
 import OKDDUNG from "./fonts/OKDDUNG.ttf";
 import EarlyFontDiary from "./fonts/EarlyFontDiary.ttf";
 import SDSamliphopangcheTTFOutline from "./fonts/SDSamliphopangcheTTFOutline.ttf";
+import JejuGothic from "./fonts/JejuGothic.ttf";
 
 //Styled-Components 초기설정
 //reset으로 css 초기화,
@@ -61,6 +62,12 @@ const GlobalStyle = createGlobalStyle`
 @font-face {
     font-family: 'SDSamliphopangche_Outline';
     src: url(${SDSamliphopangcheTTFOutline}) format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'JejuGothic';
+    src: url(${JejuGothic}) format('truetype');
     font-weight: normal;
     font-style: normal;
 }

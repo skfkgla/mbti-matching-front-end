@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import "./App.css";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -7,6 +7,7 @@ import Login from "./pages/LoginPage";
 import Home from "./pages/HomePage";
 import Chat from "./pages/ChatPage";
 import Test from "./pages/ChatTestPage";
+import SelectMbti from "./pages/SelectMbtiPage";
 import { createTheme, ThemeProvider } from "@mui/material";
 
 const theme = createTheme({
@@ -24,6 +25,7 @@ function App() {
           <Route path="/user/register" element={<Register />} />
           <Route path="/user/login" element={<Login />} />
           <Route path="/user/chat" element={<Chat />} />
+          <Route path="/select/mbti" element={<SelectMbti />} />
           <Route path="/chat" element={<Test />} />
         </Routes>
       </BrowserRouter>

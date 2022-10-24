@@ -1,3 +1,4 @@
+import { userInfo } from "os";
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 
@@ -49,18 +50,24 @@ const Menu = styled.div`
 const Header = (props: any) => {
   const [login, setLogin] = useState("");
   const [loginLink, setLoginLink] = useState("");
+  const [register, setRegister] = useState("");
+  const [registerLink, setRegisterLink] = useState("");
 
   useEffect(() => {
     const sessionObj = window.sessionStorage.getItem("userInfo");
     let userInfo = sessionObj ? JSON.parse(sessionObj) : null;
-    if (userInfo.accessToken === null) {
+    if (userInfo !== null) {
       setLogin("로그아웃");
       setLoginLink("/user/logout");
+      setRegister("내정보");
+      setRegisterLink("/user/info");
     } else {
       setLogin("로그인");
       setLoginLink("/user/login");
+      setRegister("회원가입");
+      setRegisterLink("/user/register");
     }
-  }, []);
+  }, [window.sessionStorage]);
   return (
     <Menu>
       <header className="header">
@@ -74,7 +81,7 @@ const Header = (props: any) => {
                 <a href={loginLink}>{login}</a>
               </li>
               <li>
-                <a href="/user/register">회원가입</a>
+                <a href={registerLink}>{register}</a>
               </li>
             </ul>
           </nav>
